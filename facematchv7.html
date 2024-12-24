@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPR Face Match</title>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', sans-serif;
+            background: linear-gradient(to bottom, #007BFF,#87ceeb,rgb(159, 120, 196));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 50px;
+        }
+        h1 {
+            font-size: 66px;
+            font-style: italic;
+            margin-bottom: 70px;
+            text-align: center;
+        }
+        #game-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(2);
+            gap: 30px;
+            row-gap: 60px;
+            margin-bottom: 40px;
+        }
+        .face {
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-direction: column;
+        }
+        .face img {
+            width: 300px;
+            height: 300px;
+            object-fit: scale-down;
+            margin-top: 0px;
+        }
+        .drop-zone {
+            width: 300px;
+            height: 300px;
+            border: 3px dashed #f9f9f9;
+            position: absolute;
+            margin-top: 0px;
+        }
+        .name {
+            width: 300px;
+            height: 30px;
+            border: 2px solid #f931c7;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            text-align: center;
+            font-weight:bold;
+            font-size: larger;
+            background-color: #f9f9f9;
+        }
+        .dragging {
+            opacity: 0.75;
+        }
+        #names-container {
+            display:grid;
+            grid-template-columns: repeat(6, 1fr);
+            flex-wrap: wrap;
+            gap: 10px;
+            row-gap: 15px;
+            justify-content: center;
+            margin-top: 35px;
+        }
+        #check-button {
+            margin-top: 50px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            font-weight:bold;
+            font-size:x-large;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+        #check-button:hover {
+            background-color: #0056b3;
+        }
+        .match {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>NPR Face Match v7</h1>
+    <div id="game-container">
+        <!-- Faces and Drop Zones -->
+        <div id="face1" class="face" data-id="1">
+            <img src="face1.jpg" alt="Face 1">
+            <div class="drop-zone" data-id="1"></div>
+        </div>
+        <div id="face2" class="face" data-id="2">
+            <img src="face2.jpg" alt="Face 2">
+            <div class="drop-zone" data-id="2"></div>
+        </div>
+        <div id="face3" class="face" data-id="3">
+            <img src="face3.jpg" alt="Face 3">
+            <div class="drop-zone" data-id="3"></div>
+        </div>
+        <div id="face4" class="face" data-id="4">
+            <img src="face4.jpg" alt="Face 4">
+            <div class="drop-zone" data-id="4"></div>
+        </div>
+        <div id="face5" class="face" data-id="5">
+            <img src="face5.jpg" alt="Face 5">
+            <div class="drop-zone" data-id="5"></div>
+        </div>
+        <div id="face6" class="face" data-id="6">
+            <img src="face6.jpg" alt="Face 6">
+            <div class="drop-zone" data-id="6"></div>
+        </div>
+        <div id="face7" class="face" data-id="7">
+            <img src="face7.jpg" alt="Face 7">
+            <div class="drop-zone" data-id="7"></div>
+        </div>
+        <div id="face8" class="face" data-id="8">
+            <img src="face8.jpg" alt="Face 8">
+            <div class="drop-zone" data-id="8"></div>
+        </div>
+        <div id="face9" class="face" data-id="9">
+            <img src="face9.jpg" alt="Face 9">
+            <div class="drop-zone" data-id="9"></div>
+        </div>
+        <div id="face10" class="face" data-id="10">
+            <img src="face10.jpg" alt="Face 10">
+            <div class="drop-zone" data-id="10"></div>
+        </div>
+        <div id="face11" class="face" data-id="11">
+            <img src="face11.jpg" alt="Face 11">
+            <div class="drop-zone" data-id="11"></div>
+        </div>
+        <div id="face12" class="face" data-id="12">
+            <img src="face12.jpg" alt="Face 12">
+            <div class="drop-zone" data-id="12"></div>
+        </div>
+    </div>
+
+    <!-- Names Container -->
+    <div id="names-container">
+        <div id="name1" class="name" draggable="true" data-id="1">Dave Davies</div>
+        <div id="name2" class="name" draggable="true" data-id="2">Mandalit del Barco</div>
+        <div id="name3" class="name" draggable="true" data-id="3">Dominico Montenero</div>
+        <div id="name4" class="name" draggable="true" data-id="4">Yuki Noguchi</div>
+        <div id="name5" class="name" draggable="true" data-id="5">Lakshmi Singh</div>
+        <div id="name6" class="name" draggable="true" data-id="6">Ximena Bustillo</div>
+        <div id="name7" class="name" draggable="true" data-id="7">Ayesha Rascoe</div>
+        <div id="name8" class="name" draggable="true" data-id="8">Don Gonyea</div>
+        <div id="name9" class="name" draggable="true" data-id="9">Franco Ordoñez</div>
+        <div id="name10" class="name" draggable="true" data-id="10">A Martínez</div>
+        <div id="name11" class="name" draggable="true" data-id="11">Ari Shapiro</div>
+        <div id="name12" class="name" draggable="true" data-id="12">Eleanor Beardsley</div>
+    </div>
+
+    <button id="check-button">Check Matches</button>
+
+    <script>
+        // Shuffle names in the names container
+        const namesContainer = document.getElementById('names-container');
+        const names = Array.from(namesContainer.children);
+        names.sort(() => Math.random() - 0.5);
+        names.forEach(name => namesContainer.appendChild(name));
+
+        const dropZones = document.querySelectorAll('.drop-zone');
+
+        names.forEach(name => {
+            name.addEventListener('dragstart', (e) => {
+                name.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', name.dataset.id);
+            });
+
+            name.addEventListener('dragend', () => {
+                name.classList.remove('dragging');
+                name.style.opacity = "0.5";
+            });
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const nameId = e.dataTransfer.getData('text/plain');
+
+            
+
+                // Append the dragged name to the drop zone
+                const draggedName = document.querySelector(`.name[data-id='${nameId}']`);
+                zone.appendChild(draggedName);
+            });
+        });
+
+        document.getElementById('check-button').addEventListener('click', () => {
+            dropZones.forEach(zone => {
+                const name = zone.querySelector('.name');
+                if (name) {
+                    if (zone.dataset.id === name.dataset.id) {
+                        name.classList.add('match');
+                    } else {
+                        name.remove();
+                        namesContainer.appendChild(name);
+                        name.style.opacity = "1";
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
